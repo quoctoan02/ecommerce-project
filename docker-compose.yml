@@ -67,7 +67,7 @@ services:
       image: elasticsearch-manual:${ELASTICSEARCH_VERSION}
       environment:
           - discovery.type=single-node
-          - node.name=elasticseach
+          - node.name=elasticsearch
           - cluster.name=es-docker-cluster
           - bootstrap.memory_lock=true
           - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"

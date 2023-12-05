@@ -232,7 +232,7 @@ function checkCmdDependencies()
       date
       find
       awk
-      docker-compose
+      docker compose
       docker
     )
 
@@ -333,7 +333,7 @@ function checkDomainExist ()
    if [[ -f ${NGINX_SITES_CONF_D}/$VHOST_DOMAIN.conf ]]; then 
         _success "Domain exists"
     else
-        _error "Domain not exist, Did you set it up on docker-compose system?"
+        _error "Domain not exist, Did you set it up on docker compose system?"
         exit 1
     fi
 }
@@ -383,9 +383,9 @@ function prepareSslVhostContent()
 
 function reloadNginx()
 {
-    local _nginxTest=$(docker-compose exec nginx nginx -t)
+    local _nginxTest=$(docker compose exec nginx nginx -t)
     if [[ $? -eq 0 ]]; then
-        docker-compose exec nginx nginx -s reload || _die "Nginx couldn't be reloaded."
+        docker compose exec nginx nginx -s reload || _die "Nginx couldn't be reloaded."
     else
         echo "$_nginxTest"
     fi

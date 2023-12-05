@@ -1,12 +1,12 @@
 # Magento-Ecommerce 
 
 ## Setup docker
-The system have to install docker and docker-compose (docker-compose must be a latest version by below instruction). The instruction of installation can be found in google or [How to install Docker in Ubuntu](https://docs.docker.com/engine/install/ubuntu/):
+The system have to install docker and docker compose (docker compose must be a latest version by below instruction). The instruction of installation can be found in google or [How to install Docker in Ubuntu](https://docs.docker.com/engine/install/ubuntu/):
 
 ```bash
-# The instruction of installation for docker-compose in ubuntu
-sudo curl -L https://github.com/docker/compose/releases/download/1.28.5/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+# The instruction of installation for docker compose in ubuntu
+sudo curl -L https://github.com/docker/compose/releases/download/1.28.5/docker compose-Linux-x86_64 -o /usr/local/bin/docker compose
+chmod +x /usr/local/bin/docker compose
 ```
 After installing docker, remember to run this below command to add user for adding right rule to running Docker without typing sudo. After typing, remember to logout and login again. 
 ```bash
@@ -24,8 +24,8 @@ cd ~/ecommerce-project
 # Create a file .env, Can edit if necessity
 cp env-example .env
 
-# Running docker-compose
-docker-compose up -d
+# Running docker compose
+docker compose up -d
 
 # Show all services
 ./scripts/list-services
