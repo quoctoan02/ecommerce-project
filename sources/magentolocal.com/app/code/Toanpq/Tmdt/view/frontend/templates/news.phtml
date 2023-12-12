@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * @var \Toanpq\HelloWorld\Block\Display $block
+ */
+
+$options = array(
+    'http' => array(
+        'method' => "GET",
+        'header' => "Accept: text/xml\r\n"
+    )
+);
+$context = stream_context_create($options);
+libxml_use_internal_errors(true);
+$url = 'https://tuoitre.vn/rss/kinh-doanh.rss';
+//$content  =file_get_contents($url);
+//$xml = simplexml_load_string($content) or die("Error: Cannot create object");
+////echo $xml->getName();
+$xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
+?>
+
+
+<style>
+    .news-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        padding: 10px 15px;
+        background-color: #f9f9f9;
+    }
+
+    .news-container:hover{
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+    .news-content {
+        display: flex;
+        flex-direction: column;
+        flex: 2;
+    }
+    .news-image {
+        object-fit: cover;
+        margin-right: 15px;
+    }
+    .news-title {
+        font-weight: bold;
+    }
+    .news-description {
+        margin-top: 5px;
+    }
+    .news-time {
+        margin-top: auto;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .module-container {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<div class="module-container">
+    <h2><strong>Bản tin kinh doanh</strong></h2>
+        <?php
+        foreach ($xml->channel->item as $news):
+            $description = (string) $news->description; //Description
+            $html = $description;
+            $doc = new DOMDocument();
+            @$doc->loadHTML('<?xml encoding="UTF-8">' . $html);
+            $img_tags = $doc->getElementsByTagName('img');
+            $img_src = $img_tags[0]->getAttribute('src');
+
+            ?>
+            <div class="news-container" onclick="window.open('<?php echo (string) $news->link;?>', '_blank').focus()">
+                <div class="news-image">
+                    <img src="<?php echo str_replace('80_50', '260_163', $img_src) ;?>"/>
+                </div>
+                <div class="news-content">
+                    <div class="news-title"><?php echo (string) $news->title;?></div>
+                    <div class="news-description">
+                        <?php
+//                        $content = $news->description;
+//                        $htmlParser = new DOMDocument();
+//                        libxml_use_internal_errors(true);
+//                        $htmlParser->loadHTML($content);
+//                        $html = simplexml_import_dom($htmlParser);
+//                        echo $html->a->img['src'];
+                     //   echo $span_tags->item(0);
+
+                      //  echo (string) $content;
+                      //  $img_tags[0]->parentNode->removeChild($img_tags[0]);
+                        echo (string) $doc->textContent;
+                        ?>
+                    </div>
+                    <div class="news-time"><?php echo (string) $news->pubDate;?></div>
+                    <div></div>
+                </div>
+            </div>
+        <?php
+        endforeach;
+        ?>
+</div>
+
+
+</body>
+</html>
