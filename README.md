@@ -41,13 +41,28 @@ docker compose up -d
 # Turn on SSL for domain
 ./scripts/ssl --domain=magentolocal.com
 
+# Access shell
 ./scripts/shell php81-c2
 cd magentolocal.com
 
+# Create vhost for magento
 ./scripts/create-vhost --domain=magentolocal.com --app=magento2 --root-dir=magentolocal.com --php-version=php81-c2
 
-```
+# Build magento with domain magentolocal.com. When deplot, it must be your domain or ip of server
 php bin/magento setup:install --base-url=http://magentolocal.com/ --db-host=mysql --db-name=magento --db-user=root --db-password=root --admin-firstname=admin --admin-lastname=admin --admin-email=admin@admin.com --admin-user=admin --admin-password=admin@123321 --language=en_US --currency=USD --timezone=America/Chicago --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=elasticsearch --elasticsearch-port=9200
+
+# Clear cache and deploy
+php bin/magento cache:clean
+php bin/magento cache:flush
+php bin/magento indexer:reindex
+php bin/magento setup:upgrade
+php bin/magento setup:static-content:deploy -f
+php bin/magento module:disable Magento_TwoFactorAuth
+sudo chmod -R 777 var/ generated/ pub/
+```
+
+
+
 ```
 ```
 
