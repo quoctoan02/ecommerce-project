@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @var \Toanpq\HelloWorld\Block\Display $block
+ */
+
+$options = array(
+    'http' => array(
+        'method' => "GET",
+        'header' => "Accept: application/xml\r\n"
+    )
+);
+$context = stream_context_create($options);
+$url = 'https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx?b=68';
+$xml = simplexml_load_string(file_get_contents($url, false, $context)) or die("Error: Cannot create object");
+?>
+
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .module-container {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<div class="module-container">
+    <h2><strong>Tỷ giá tiền tệ</strong></h2>
+    <div>
+        <div></div>
+    </div>
+    <span>Dữ liệu cập nhật từ Vietcombank lúc <?php echo (string) $xml->DateTime;?></span>
+    <table class="rate-bank">
+        <thead>
+        <tr>
+            <th>Mã tiền tệ</th>
+            <th>Tên tiền tệ</th>
+            <th>Giá mua vào</th>
+            <th>Giá trao đổi</th>
+            <th>Giá bán ra</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <?php
+        foreach ($xml as $rate):
+            if($rate->getName() !== "Exrate") continue;
+            ?>
+            <tr>
+                <td><?php echo $rate->attributes()->CurrencyCode;?></td>
+                <td><?php echo $rate->attributes()->CurrencyName;?></td>
+                <td><?php echo $rate->attributes()->Buy;?></td>
+                <td><?php echo $rate->attributes()->Transfer;?></td>
+                <td><?php echo $rate->attributes()->Sell;?></td>
+            </tr>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+
+    </table>
+</div>
+
+
+</body>
+</html>
