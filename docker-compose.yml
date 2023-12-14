@@ -59,26 +59,26 @@ services:
   #     volumes:
   #       - "redis_data:/data"
 
-  # elasticsearch:
-  #     build:
-  #       context: ./build/elasticsearch
-  #       args: 
-  #         ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
-  #     image: elasticsearch-manual:${ELASTICSEARCH_VERSION}
-  #     environment:
-  #         - discovery.type=single-node
-  #         - node.name=elasticsearch
-  #         - cluster.name=es-docker-cluster
-  #         - bootstrap.memory_lock=true
-  #         - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-  #     ulimits:
-  #         memlock:
-  #             soft: -1
-  #             hard: -1
-  #     volumes:
-  #         - elasticsearch-data:/usr/share/elasticsearch/data
-  #     ports:
-  #         - 9200:9200
+  elasticsearch:
+      build:
+        context: ./build/elasticsearch
+        args: 
+          ELASTICSEARCH_VERSION: ${ELASTICSEARCH_VERSION}
+      image: elasticsearch-manual:${ELASTICSEARCH_VERSION}
+      environment:
+          - discovery.type=single-node
+          - node.name=elasticsearch
+          - cluster.name=es-docker-cluster
+          - bootstrap.memory_lock=true
+          - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      ulimits:
+          memlock:
+              soft: -1
+              hard: -1
+      volumes:
+          - elasticsearch-data:/usr/share/elasticsearch/data
+      ports:
+          - 9200:9200
 
   # rabbitmq:
   #     image: rabbitmq:3-management-alpine
@@ -95,6 +95,6 @@ services:
 volumes: 
   composer_cache:
   composer_cache_file:
-  # elasticsearch-data:
+  elasticsearch-data:
   # redis_data:
   # rabbitmq-data:
